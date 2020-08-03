@@ -22,6 +22,7 @@
             $('#methodSelect').change(function () {
                 setCurrentMethod();
                 toggleFormElementVisibility();
+                flipEditableJsonContent();
             });
 
             function setCurrentModel() {
@@ -203,7 +204,7 @@
             </div>
         </div>
 
-        <pre style="display: none" id="userModelJson">
+        <pre style="display: none" id="UserModelJson">
   {
     "name": "Leanne Graham",
     "username": "Bret",
@@ -228,7 +229,7 @@
   }
         </pre>
 
-        <pre style="display: none" id="postModelJson">
+        <pre style="display: none" id="PostModelJson">
   {
     "userId": 1,
     "title": "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
@@ -236,7 +237,7 @@
   }
         </pre>
 
-        <pre style="display: none" id="albumModelJson">
+        <pre style="display: none" id="AlbumModelJson">
   {
     "userId": 1,
     "title": "quidem molestiae enim"
