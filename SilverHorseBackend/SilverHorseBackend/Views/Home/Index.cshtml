@@ -1,0 +1,247 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Silver Horse Backend</title>
+    <link rel="stylesheet" href="/content/bootstrap.min.css" />
+    <script src="/scripts/jquery-3.4.1.min.js"></script>
+    <script src="/scripts/bootstrap.min.js"></script>
+
+    <script>
+
+        var currentModel = 'user';
+        var currentMethod = 'GET';
+
+        $(document).ready(function () {
+
+            $('#editArea').hide();
+
+            $('#modelSelect').change(function () {
+                setCurrentModel();
+            });
+
+            $('#methodSelect').change(function () {
+                setCurrentMethod();
+                toggleFormElementVisibility();
+            });
+
+            function setCurrentModel() {
+                currentModel = $('#modelSelect').find(":selected").text();
+                toggleFormElementVisibility();
+                flipEditableJsonContent();
+            }
+
+            function flipEditableJsonContent() {
+                var jsonString = $('#' + currentModel + 'ModelJson').html();
+                $('#edit').html(jsonString);
+            }
+
+
+            function toggleFormElementVisibility() {
+                if (currentModel === 'collection' || currentMethod == 'POST') {
+                    $('#idSection').hide();
+                }
+                else {
+                    $('#idSection').show();
+                }
+                setCurrentMethod();
+            }
+
+            function setCurrentMethod() {
+                currentMethod = $('#methodSelect').find(":selected").text();
+                switch (currentMethod) {
+                    case 'POST':
+                    case 'PUT':
+                        if (currentModel !== 'collection') {
+                            $('#editArea').show();
+                        }
+                        else {
+                            $('#editArea').hide();
+                        }
+                        break;
+
+                    default:
+                        $('#editArea').hide();
+                }
+            }
+
+            setCurrentModel();
+            setCurrentMethod();
+            toggleFormElementVisibility();
+
+        });
+
+        function send() {
+            var model = $('#modelSelect').find(":selected").text();
+            var id = (currentModel !== 'collection') ? $('#uid').val() : '';
+            var thisUri = '/api/' + model + ((id === '') ? '' : '/' + id);
+            var bearer = $('#bearer').val();
+            var method = $('#methodSelect').find(":selected").text();
+            var postBody = (method == 'POST' || method == 'PUT') ? $('#edit').html() : '';
+
+            $('#json').text('');
+            $('#responseStatus').text('Please wait...');
+
+            $.ajax({
+                beforeSend: function (request) {
+                    request.setRequestHeader("Authorization", 'Bearer ' + bearer);
+                },
+                dataType: "json",
+                url: thisUri,
+                type: method,
+                data: postBody,
+                success: function (data, textStatus, xhr) {
+                    $('#json').text(JSON.stringify(data, undefined, 2));
+                    responseStatus
+                },
+                error: function (xhr, status) {
+                    $('#json').text("An Error occurred: " + xhr.status);
+                },
+                complete: function (xhr, status) {
+                    $('#responseStatus').text(xhr.status + ' ' + xhr.statusText + ' (' + status + ')');
+                }
+            });
+        }
+
+    </script>
+
+
+    <style>
+        .td1 {
+            border-spacing: 15px;
+            padding: 5px;
+            width: 150px;
+        }
+
+        .text-area {
+            height: 300px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <p />
+        <h2>Welcome to the API Tester</h2>
+        <h3>Instructions</h3>
+        <ul>
+            <li>All documentation lives in the <a href="/Help">API link</a> above.</li>
+            <li>For each "Model" type you can perform CRUD operations by choosing the "Method" select box.</>
+            <li>In POST and PUT modes you can edit the sample JSON data presented.</li>
+            <li>Authentication is enforced using the "Authentication Bearer" scheme, <i>hint:</i> try changing the "Bearer".</li>
+            <li>For robustness and future proofing 28 unit tests exist, utilising mocked dependancy injection.</li>
+        </ul>
+        <br />
+        <table width="100%">
+            <tr>
+                <td class="td1">
+                    <label for="modelSelect">Model:</label>
+                    <select name="modelSelect" id="modelSelect" class="form-control">
+                        <option value="user" default>User</option>
+                        <option value="post">Post</option>
+                        <option value="album">Album</option>
+                        <option value="collection">Collection</option>
+                    </select>
+                </td>
+                <td class="td1">
+                    <div id="idSection">
+                        <label for="uid">Id:</label>
+                        <input type="text" class="form-control" id="uid" name="uid" />
+                    </div>
+                </td>
+                <td class="td1">
+                    <div>
+                        <label for="bearer">Bearer:</label>
+                        @{
+                            var bearer = System.Configuration.ConfigurationManager.AppSettings["bearer"].ToString();
+                        }
+
+                        <input type="text" class="form-control" id="bearer" name="bearer" value="@bearer" />
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="td1">
+                    <label for="modelSelect">Method:</label>
+                    <select name="methodSelect" id="methodSelect" class="form-control">
+                        <option value="GET" default>GET</option>
+                        <option value="DELETE">DELETE</option>
+                        <option value="POST">POST</option>
+                        <option value="PUT">PUT</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <div id="editArea">
+                        <label for="edit">Edit for POST or PUT:</label>
+                        <div>
+                            <pre class="text-area" id="edit" name="edit" contenteditable="true"></pre>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="td1">
+                    <div>
+                        <input class="btn btn-primary" type="button" value="Send" onclick="send();" />
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <p />&nbsp;
+        <p />
+
+        <div style="width: 100%; overflow: hidden;">
+            <div>
+                <label for="responseStatus">Response Status:</label>
+                <div>
+                    <pre id="responseStatus" name="responseStatus">Ready</pre>
+                </div>
+                <label for="json">Response Body:</label>
+                <div>
+                    <pre id="json" name="json">Choose your options and then press send.</pre>
+                </div>
+            </div>
+        </div>
+
+        <pre style="display: none" id="userModelJson">
+  {
+    "name": "Leanne Graham",
+    "username": "Bret",
+    "email": "Sincere@april.biz",
+    "address": {
+      "street": "Kulas Light",
+      "suite": "Apt. 556",
+      "city": "Gwenborough",
+      "zipcode": "92998-3874",
+      "geo": {
+        "lat": "-37.3159",
+        "lng": "81.1496"
+      }
+    },
+    "phone": "1-770-736-8031 x56442",
+    "website": "hildegard.org",
+    "company": {
+      "name": "Romaguera-Crona",
+      "catchPhrase": "Multi-layered client-server neural-net",
+      "bs": "harness real-time e-markets"
+    }
+  }
+        </pre>
+
+        <pre style="display: none" id="postModelJson">
+  {
+    "userId": 1,
+    "title": "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
+    "body": "quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto"
+  }
+        </pre>
+
+        <pre style="display: none" id="albumModelJson">
+  {
+    "userId": 1,
+    "title": "quidem molestiae enim"
+  }
+        </pre>
+
+</body>
+</html>

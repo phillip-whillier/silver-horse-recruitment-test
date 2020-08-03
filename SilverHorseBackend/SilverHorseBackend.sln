@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30320.27
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SilverHorseBackend", "SilverHorseBackend\SilverHorseBackend.csproj", "{7FAC997C-DADB-4B4D-BB1D-F4402F28FC36}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SilverHorseBackend.Tests", "SilverHorseBackend.Tests\SilverHorseBackend.Tests.csproj", "{000765D9-6C9E-4E0B-AD40-013BFF36A5EC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7FAC997C-DADB-4B4D-BB1D-F4402F28FC36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7FAC997C-DADB-4B4D-BB1D-F4402F28FC36}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7FAC997C-DADB-4B4D-BB1D-F4402F28FC36}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7FAC997C-DADB-4B4D-BB1D-F4402F28FC36}.Release|Any CPU.Build.0 = Release|Any CPU
+		{000765D9-6C9E-4E0B-AD40-013BFF36A5EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{000765D9-6C9E-4E0B-AD40-013BFF36A5EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{000765D9-6C9E-4E0B-AD40-013BFF36A5EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{000765D9-6C9E-4E0B-AD40-013BFF36A5EC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {254D63ED-56CC-45E9-A128-910EC6014D63}
+	EndGlobalSection
+EndGlobal
