@@ -38,7 +38,7 @@
 
 
             function toggleFormElementVisibility() {
-                if (currentModel === 'collection' || currentMethod == 'POST') {
+                if (currentModel === 'Collection' || currentMethod == 'POST') {
                     $('#idSection').hide();
                 }
                 else {
@@ -52,7 +52,7 @@
                 switch (currentMethod) {
                     case 'POST':
                     case 'PUT':
-                        if (currentModel !== 'collection') {
+                        if (currentModel !== 'Collection') {
                             $('#editArea').show();
                         }
                         else {
