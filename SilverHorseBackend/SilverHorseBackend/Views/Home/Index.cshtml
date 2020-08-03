@@ -8,7 +8,7 @@
 
     <script>
 
-        var currentModel = 'user';
+        var currentModel = 'User';
         var currentMethod = 'GET';
 
         $(document).ready(function () {
@@ -73,7 +73,7 @@
 
         function send() {
             var model = $('#modelSelect').find(":selected").text();
-            var id = (currentModel !== 'collection') ? $('#uid').val() : '';
+            var id = (currentModel !== 'Collection') ? $('#uid').val() : '';
             var thisUri = '/api/' + model + ((id === '') ? '' : '/' + id);
             var bearer = $('#bearer').val();
             var method = $('#methodSelect').find(":selected").text();
