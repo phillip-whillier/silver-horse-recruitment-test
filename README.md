@@ -2,7 +2,7 @@
 
 ## Documentation
 This is a ASP.Net WebApi project, it is essentially self documenting.  
-By launching the application instructions about how to use the API will be right there on screen.
+By launching the application, instructions about how to use the API will be right there on screen.
 
 
 ## Hosted microservice
